@@ -1,0 +1,22 @@
+---
+  - name: "Bootstrap local machine"
+    hosts: localhost
+    connection: local 
+    vars:
+        username: "fawkes"
+        home: "/home/fawkes"
+        ws: "~/workspace"
+
+    tasks:
+    - name: "Install basic utilities"
+      include: helper-pkgs.yml
+
+    - name: "Create workspace path"
+      file:
+          path: "{{ ws }}"
+          state: directory
+
+    - name: "Install dev tools"
+      include: dev-tools.yml
+
+      #- debug: var=ansible_facts

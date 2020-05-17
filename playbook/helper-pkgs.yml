@@ -1,0 +1,5 @@
+- name: "Upgrade and autoclean"
+  apt:
+    upgrade: yes
+    autoclean: yes
+  become: yes

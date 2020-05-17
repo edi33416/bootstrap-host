@@ -1,0 +1,16 @@
+- name: "Create dlang path"
+  file:
+      path: ~/dlang
+      state: directory
+
+- name: "Download dlang.org/install.sh"
+  get_url:
+      url: "https://dlang.org/install.sh"
+      dest: ~/dlang/install.sh
+      mode: 0775
+
+- name: "Install ldc2"
+  shell:
+      cmd: ~/dlang/install.sh install ldc
+      executable: /bin/bash
+

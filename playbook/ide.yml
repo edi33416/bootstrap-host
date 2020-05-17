@@ -1,0 +1,32 @@
+- name: "Install editor"
+  apt:
+    name: ["vim"]
+    state: present
+  become: yes
+
+- name: "Clone vimrc"
+  git:
+      repo: "git@github.com:edi33416/vim.git"
+      dest: "{{ ws }}/vimrc"
+
+
+- name: "Clone vundle"
+  git:
+      repo: "https://github.com/VundleVim/Vundle.vim.git"
+      dest: "~/.vim/bundle/Vundle.vim"
+
+- name: "Create symlink to vimrc"
+  file:
+      src: "{{ ws }}/vimrc/vimrc"
+      dest: "~/.vimrc"
+      state: link
+
+- name: "Install plugins"
+  shell: vim +PluginInstall +qall
+  args:
+      stdin: "\n"
+
+- name: "Build YouCompleteMe"
+  shell: python3 install.py --clangd-completer
+  args:
+      chdir: ~/.vim/bundle/YouCompleteMe

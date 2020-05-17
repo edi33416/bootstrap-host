@@ -1,0 +1,16 @@
+- name: "Install essential packages"
+  apt:
+    name: ["build-essential", "git", "tmux", "htop", "valgrind",
+           "curl", "ssh", "cmake", "python3-dev"]
+    state: present
+  become: yes
+
+- name: "Generate ssh keys"
+  openssh_keypair:
+      path: ~/.ssh/id_rsa
+
+- name: "Install dlang"
+  include: dlang.yml
+
+- name: "Install the editors"
+  include: ide.yml

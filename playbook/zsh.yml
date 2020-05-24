@@ -1,6 +1,6 @@
-- name: "Install editor"
+- name: "Install zsh"
   apt:
-    name: ["zsh"]
+    name: ["zsh", "autojump"]
     state: present
   become: yes
   register: r_zsh

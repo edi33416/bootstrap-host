@@ -1,0 +1,30 @@
+- name: "Install editor"
+  apt:
+    name: ["zsh"]
+    state: present
+  become: yes
+  register: r_zsh
+
+- name: "Set zsh as default shell"
+  shell: chsh -s $(which zsh)
+  become: yes
+  when: r_zsh.changed != false
+
+- name: "Download oh-my-zsh"
+  get_url:
+      url: "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
+      dest: ~/bin/zsh-install.sh
+      mode: 0775
+  when: r_zsh.changed != false
+
+- name: "Install oh-my-zsh"
+  shell:
+      cmd: ~/bin/zsh-install.sh
+      executable: /bin/sh
+  when: r_zsh.changed != false
+
+- name: "Cleanup oh-my-zsh"
+  shell:
+      cmd: rm ~/bin/zsh-install.sh
+      removes: ~/bin/zsh-install.sh
+  when: r_zsh.changed != false

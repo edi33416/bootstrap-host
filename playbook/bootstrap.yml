@@ -16,7 +16,15 @@
           path: "{{ ws }}"
           state: directory
 
+    - name: "Create home bin path"
+      file:
+          path: "~/bin"
+          state: directory
+
     - name: "Install dev tools"
       include: dev-tools.yml
+
+    - name: "Install zsh"
+      include: zsh.yml
 
       #- debug: var=ansible_facts

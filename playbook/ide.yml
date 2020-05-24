@@ -8,25 +8,29 @@
   git:
       repo: "git@github.com:edi33416/vim.git"
       dest: "{{ ws }}/vimrc"
-
+  register: r_vim
 
 - name: "Clone vundle"
   git:
       repo: "https://github.com/VundleVim/Vundle.vim.git"
       dest: "~/.vim/bundle/Vundle.vim"
+  when: r_vim.changed != false
 
 - name: "Create symlink to vimrc"
   file:
       src: "{{ ws }}/vimrc/vimrc"
       dest: "~/.vimrc"
       state: link
+  when: r_vim.changed != false
 
 - name: "Install plugins"
   shell: vim +PluginInstall +qall
   args:
       stdin: "\n"
+  when: r_vim.changed != false
 
 - name: "Build YouCompleteMe"
   shell: python3 install.py --clangd-completer
   args:
       chdir: ~/.vim/bundle/YouCompleteMe
+  when: r_vim.changed != false

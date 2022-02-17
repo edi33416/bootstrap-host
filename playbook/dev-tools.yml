@@ -1,6 +1,6 @@
 - name: "Install essential packages"
   apt:
-    name: ["build-essential", "git", "tmux", "htop", "valgrind",
+    name: ["build-essential", "git", "tmux", "tmuxinator", "htop", "valgrind",
            "curl", "ssh", "cmake", "python3-dev"]
     state: present
   become: yes

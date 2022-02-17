@@ -5,9 +5,15 @@
     state: present
   become: yes
 
+- name: "Check if ssh keys exist"
+  stat:
+      path: ~/.ssh/id_rsa
+  register: stat_result
+
 - name: "Generate ssh keys"
   openssh_keypair:
       path: ~/.ssh/id_rsa
+  when: not stat_result.stat.exists
 
 - name: "Install dlang"
   include: dlang.yml

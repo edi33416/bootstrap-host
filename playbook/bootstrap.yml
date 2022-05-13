@@ -2,14 +2,15 @@
   - name: "Bootstrap local machine"
     hosts: localhost
     connection: local 
+    gather_facts: yes
     vars:
         username: "fawkes"
-        home: "/home/fawkes"
         ws: "~/workspace"
 
     tasks:
+
     - name: "Install basic utilities"
-      include: helper-pkgs.yml
+      include_tasks: helper-pkgs.yml
 
     - name: "Create workspace path"
       file:
@@ -22,9 +23,13 @@
           state: directory
 
     - name: "Install dev tools"
-      include: dev-tools.yml
+      include_tasks: dev-tools.yml
 
     - name: "Install zsh"
-      include: zsh.yml
+      include_tasks: zsh.yml
 
-      #- debug: var=ansible_facts
+    #- debug: var=ansible_facts
+    #- debug: var=ansible_facts["distribution"]
+    #- debug: var=ansible_facts["os_family"]
+    #- debug: var=ansible_facts["pkg_mgr"]
+    #- debug: var=ansible_facts["env"]["HOME"]

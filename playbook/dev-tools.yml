@@ -1,9 +1,16 @@
-- name: "Install essential packages"
+- name: "Install essential packages using apt"
   apt:
     name: ["build-essential", "git", "tmux", "tmuxinator", "htop", "valgrind",
            "curl", "ssh", "cmake", "python3-dev"]
     state: present
   become: yes
+  when: ansible_facts["pkg_mgr"] == "apt"
+
+- name: "Install essential packages using brew"
+  community.general.homebrew:
+    name: ["git", "tmux", "tmuxinator", "htop", "curl", "cmake"]
+    state: present
+  when: ansible_facts["pkg_mgr"] == "homebrew"
 
 - name: "Check if ssh keys exist"
   stat:
@@ -16,7 +23,7 @@
   when: not stat_result.stat.exists
 
 - name: "Install dlang"
-  include: dlang.yml
+  include_tasks: dlang.yml
 
 - name: "Install the editors"
-  include: ide.yml
+  include_tasks: ide.yml

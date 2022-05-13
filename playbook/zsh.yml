@@ -1,9 +1,17 @@
-- name: "Install zsh"
+- name: "Install zsh using apt"
   apt:
     name: ["zsh", "autojump"]
     state: present
   become: yes
   register: r_zsh
+  when: ansible_facts["pkg_mgr"] == "apt"
+
+- name: "Install zsh using brew"
+  community.general.homebrew:
+    name: ["zsh", "autojump"]
+    state: present
+  register: r_zsh
+  when: ansible_facts["pkg_mgr"] == "homebrew"
 
 - name: "Set zsh as default shell"
   shell: chsh -s $(which zsh)

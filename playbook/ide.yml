@@ -1,8 +1,15 @@
-- name: "Install editor"
+- name: "Install editor using apt"
   apt:
     name: ["vim"]
     state: present
   become: yes
+  when: ansible_facts["pkg_mgr"] == "apt"
+
+- name: "Install editor using brew"
+  community.general.homebrew:
+    name: ["vim"]
+    state: present
+  when: ansible_facts["pkg_mgr"] == "homebrew"
 
 - name: "Clone vimrc"
   git:

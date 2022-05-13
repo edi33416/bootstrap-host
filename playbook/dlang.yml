@@ -10,9 +10,9 @@
       mode: 0775
   register: r_dlang
 
-- name: "Install ldc2"
+- name: "Install gdc"
   shell:
-      cmd: ~/dlang/install.sh install ldc
+      cmd: ~/dlang/install.sh install gdc
       executable: /bin/bash
   when: r_dlang.changed != false
 

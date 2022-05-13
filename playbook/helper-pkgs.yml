@@ -1,5 +1,12 @@
-- name: "Upgrade and autoclean"
+- name: "Upgrade and autoclean apt"
   apt:
     upgrade: yes
     autoclean: yes
   become: yes
+  when: ansible_facts["pkg_mgr"] == "apt"
+
+- name: "Update and upgrade brew"
+  community.general.homebrew:
+    update_homebrew: yes
+    upgrade_all: yes
+  when: ansible_facts["pkg_mgr"] == "homebrew"
